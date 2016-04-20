@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        h1{
+            color:#028F99;
+        }
+        button {
+            background-color: #028F99;
+            height: 60px;
+            width: 150px;
+            color: white;
+            border-radius: 5px; 
+            font-size: 1.5em;
+        }
+        
+       input {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+               
+    </style>
+</head>
+<body>
+   <img src="http://www.flalottery.com/images/jpg/p4-game-pg-banner.jpg" style = "margin: 0 auto";>
+    <h1>Play 4 Lottery</h1>
+    <h2>Instructions</h2>
+    <p>Press "play" button to get started. Enter 4 unique numbers between 1 and 10.</p> 
+    
+    <p>You have a bank of $10 to get started.</p>
+    
+    <p>Additional plays cost is $2.</p>
+    
+    <p>If any of your numbers match the computer generated numbers, YOU WIN! Winnings are based on the number of numbers you guess correctly:</p>
+    <ul>
+        <li> 0 numbers = $0</li>
+        <li> 1 numbers = $2</li>
+        <li> 2 numbers = $4</li>
+        <li> 3 numbers = $16</li>
+        <li> 4 numbers = $64</li>   
+    </ul>
+   
+   <div><h2>Computer's Numbers</h2>
+   <div id="lottery-results"></div>
+   </div>
+   
+   <div><h2>NUMBER OF MATCHES</h2>
+        <div id="winning-numbers"></div>
+   </div>
+   
+   <div> <h2>Bank</h2>
+   <div id="bank"></div>
+   </div>
+    
+  <div><button onclick="bankTally()" id="press-play">Play</button></div>   
+   
+   <script>
+    var bank = 10;
+       var ticketCost=2;
+       var winnings;
+       var winningResults = document.getElementById ("winning-numbers");
+       var pressPlayButton = document.getElementById("press-play");
+       var lotteryResults = document.getElementById("lottery-results");
+       var bankDiv = document.getElementById("bank");
+               
+       //function generatedNumber needs to generate 4 #'s between 1 - 10, push #'s to new array if #'s don't repeat + display the numbers to the player.
+    
+       function generatedNumbers() {
+           var resultsArr=[];
+            for (var i = 0; i < 4; i++){
+                var randomNums=[Math.round(Math.random() * 10) + 1];   
+                resultsArr.push(randomNums);
+        } 
+              document.getElementById("lottery-results").innerHTML = resultsArr;
+                return resultsArr;
+        }   
+       
+    function playerNumbers(){ 
+       var numbersInput=prompt("Enter your 4 numbers separated by commas!");
+           if(numbersInput >10){
+            alert("You can only enter numbers 1-4");
+                }
+           numbersInput=numbersInput.split(","); 
+        return numbersInput;    
+       }
+             
+    function compareArrays(){
+        var playerInput = playerNumbers();
+        var winningNumbers = generatedNumbers();
+        console.log(playerInput);
+        console.log(winningNumbers);
+        var matches=0;
+         for (var i = 0; i < playerInput.length; i++){
+        var playerInputNum = playerInput[i];
+         for (var j = 0; j < winningNumbers.length; j++){
+            if (playerInputNum == winningNumbers[j]){
+                matches = matches + 1;   
+            }}   
+         }
+        document.getElementById("winning-numbers").innerHTML = matches;    
+        return matches;   
+        }  
+       
+       function bankTally(){ 
+            if (bank <0){ 
+            alert("you are out of money and must pay before playing again");
+                return;
+        }
+           bank = bank - 2;
+           var matches=compareArrays();
+           if (matches == 0){       
+           }
+           else if (matches == 1){
+               bank = bank + 2;
+           }
+             else if (matches == 2){
+               bank = bank + 4;
+           }
+              else if (matches == 3){
+               bank = bank + 16;
+           }
+              else {
+               bank = bank + 64;
+           }
+
+            return bankDiv.innerHTML= "$" + bank;  
+       }
+       
+  
+    </script>
+    
+    
+</body>
+</html>
